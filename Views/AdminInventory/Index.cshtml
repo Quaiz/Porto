@@ -1,0 +1,108 @@
+@model List<Porto.Models.Product>
+
+@{
+    ViewBag.Title = "Quản Lý Kho Hàng - Admin";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-warehouse"></i> Quản Lý Kho Hàng</h2>
+    <a href="@Url.Action("LowStock")" class="btn btn-warning">
+        <i class="fas fa-exclamation-triangle"></i> Hàng Sắp Hết
+    </a>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show">
+        <i class="fas fa-check-circle"></i> @TempData["Success"]
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+}
+
+<div class="card mb-3">
+    <div class="card-body">
+        <form method="get" class="form-inline">
+            <input type="text" name="search" class="form-control mr-2" placeholder="Tìm sản phẩm..." value="@ViewBag.Search" style="width:300px;">
+            <select name="sort" class="form-control mr-2">
+                <option value="name" @(ViewBag.Sort == "name" ? "selected" : "")>Tên A-Z</option>
+                <option value="quantity_asc" @(ViewBag.Sort == "quantity_asc" ? "selected" : "")>Số lượng: Thấp → Cao</option>
+                <option value="quantity_desc" @(ViewBag.Sort == "quantity_desc" ? "selected" : "")>Số lượng: Cao → Thấp</option>
+                <option value="price" @(ViewBag.Sort == "price" ? "selected" : "")>Giá</option>
+            </select>
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-search"></i> Tìm
+            </button>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Hình ảnh</th>
+                        <th>Sản phẩm</th>
+                        <th>Danh mục</th>
+                        <th>Giá</th>
+                        <th class="text-center">Số lượng tồn</th>
+                        <th class="text-center">Trạng thái</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="@(item.ProductQuantity <= 5 ? "table-danger" : item.ProductQuantity <= 10 ? "table-warning" : "")">
+                            <td>
+                                <img src="~/Content/images/@item.ProductImage" alt="@item.ProductName" style="width:50px; height:50px; object-fit:cover; border-radius:5px;">
+                            </td>
+                            <td>
+                                <strong>@item.ProductName</strong><br>
+                                <small class="text-muted">ID: @item.ProductID</small>
+                            </td>
+                            <td>@item.Category.CategoryName</td>
+                            <td>@item.ProductPrice.ToString("C")</td>
+                            <td class="text-center">
+                                <h5>
+                                    <span class="badge badge-@(item.ProductQuantity <= 5 ? "danger" : item.ProductQuantity <= 10 ? "warning" : "success")">
+                                        @item.ProductQuantity
+                                    </span>
+                                </h5>
+                            </td>
+                            <td class="text-center">
+                                @if (item.ProductQuantity <= 5)
+                                {
+                                    <span class="badge badge-danger"><i class="fas fa-exclamation-circle"></i> Hết hàng</span>
+                                }
+                                else if (item.ProductQuantity <= 10)
+                                {
+                                    <span class="badge badge-warning"><i class="fas fa-exclamation-triangle"></i> Sắp hết</span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-success"><i class="fas fa-check-circle"></i> Còn hàng</span>
+                                }
+                            </td>
+                            <td class="text-right">
+                                <a href="@Url.Action("UpdateStock", new { id = item.ProductID })" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-edit"></i> Cập nhật
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        @if (!Model.Any())
+        {
+            <div class="alert alert-info text-center">
+                <i class="fas fa-info-circle"></i> Không tìm thấy sản phẩm nào
+            </div>
+        }
+    </div>
+</div>
+

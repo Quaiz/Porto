@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.36422.26
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Porto", "Porto.csproj", "{0049B929-6C7D-4CA5-8B4B-DF1320E5EEF3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0049B929-6C7D-4CA5-8B4B-DF1320E5EEF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0049B929-6C7D-4CA5-8B4B-DF1320E5EEF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0049B929-6C7D-4CA5-8B4B-DF1320E5EEF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0049B929-6C7D-4CA5-8B4B-DF1320E5EEF3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3999F4D7-BF00-4145-B0FC-87271F90C741}
+	EndGlobalSection
+EndGlobal

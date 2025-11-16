@@ -1,0 +1,737 @@
+/* ========================================
+   PORTO E-COMMERCE - MODERN CSS
+   ======================================== */
+
+/* Base Styles */
+html {
+    height: 100%;
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #e0f7ff 0%, #f0fdff 100%);
+    background-attachment: fixed;
+}
+
+/* ========================================
+   HEADER & NAVIGATION
+   ======================================== */
+
+/* Gradient Header với Animation - Cyan Neon */
+.navbar {
+    background: linear-gradient(135deg, #00d4ff 0%, #0ea5e9 100%) !important;
+    box-shadow: 0 4px 20px rgba(0, 212, 255, 0.3);
+    transition: all 0.3s ease;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar:hover {
+    box-shadow: 0 6px 30px rgba(0,0,0,0.15);
+}
+
+/* Brand Logo Animation */
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.navbar-brand::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background: #fff;
+    transition: width 0.3s ease;
+}
+
+.navbar-brand:hover::after {
+    width: 100%;
+}
+
+.navbar-brand i {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* Nav Links với Hover Effect */
+.nav-link {
+    position: relative;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    padding: 0.5rem 1rem !important;
+}
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: #fff;
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::before {
+    width: 80%;
+}
+
+.nav-link:hover {
+    transform: translateY(-2px);
+}
+
+/* Search Bar với Animation */
+.form-inline input[type="text"] {
+    border-radius: 25px;
+    border: 2px solid rgba(255,255,255,0.3);
+    transition: all 0.3s ease;
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+}
+
+.form-inline input[type="text"]::placeholder {
+    color: rgba(255,255,255,0.7);
+}
+
+.form-inline input[type="text"]:focus {
+    border-color: #fff;
+    background: rgba(255,255,255,0.2);
+    box-shadow: 0 0 15px rgba(255,255,255,0.3);
+    transform: scale(1.05);
+}
+
+.form-inline .btn {
+    border-radius: 25px;
+    transition: all 0.3s ease;
+}
+
+.form-inline .btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Cart Badge Animation */
+#cart-count {
+    animation: cartBounce 0.5s ease;
+    transition: all 0.3s ease;
+}
+
+@keyframes cartBounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+.nav-link .badge {
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover .badge {
+    transform: scale(1.2);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+}
+
+/* ========================================
+   MAIN CONTENT
+   ======================================== */
+
+main {
+    flex: 1;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Cards với Modern Shadow */
+.card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    background: #fff;
+}
+
+.card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+}
+
+.card-img-top {
+    transition: all 0.5s ease;
+    object-fit: cover;
+}
+
+.card:hover .card-img-top {
+    transform: scale(1.1);
+    filter: brightness(1.1);
+}
+
+.card-body {
+    position: relative;
+    z-index: 1;
+}
+
+.card-title {
+    font-weight: 600;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.card:hover .card-title {
+    color: #00d4ff;
+}
+
+/* ========================================
+   BUTTONS
+   ======================================== */
+
+.btn {
+    border-radius: 25px;
+    padding: 0.6rem 1.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    transition: width 0.6s ease, height 0.6s ease;
+    z-index: -1;
+}
+
+.btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.btn:active {
+    transform: translateY(-1px);
+}
+
+/* Button Variants - Cyan Neon */
+.btn-primary {
+    background: linear-gradient(135deg, #00d4ff 0%, #0ea5e9 100%);
+    border: none;
+    color: #fff;
+    font-weight: 600;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    border: none;
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+    border: none;
+}
+
+.btn-warning {
+    background: linear-gradient(135deg, #f2994a 0%, #f2c94c 100%);
+    border: none;
+}
+
+.btn-info {
+    background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+    border: none;
+}
+
+/* ========================================
+   FORMS
+   ======================================== */
+
+.form-control {
+    border-radius: 10px;
+    border: 2px solid #e0e0e0;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #00d4ff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 212, 255, 0.25);
+    transform: translateY(-2px);
+}
+
+select.form-control {
+    cursor: pointer;
+}
+
+textarea.form-control {
+    resize: vertical;
+}
+
+/* ========================================
+   BADGES & LABELS
+   ======================================== */
+
+.badge {
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.text-danger {
+    color: #e74c3c !important;
+    font-weight: 600;
+}
+
+.text-success {
+    color: #27ae60 !important;
+    font-weight: 600;
+}
+
+/* ========================================
+   TABLES
+   ======================================== */
+
+.table {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.table thead th {
+    background: linear-gradient(135deg, #00d4ff 0%, #0ea5e9 100%);
+    color: #fff;
+    border: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.table tbody tr {
+    transition: all 0.3s ease;
+}
+
+.table tbody tr:hover {
+    background: #f8f9fa;
+    transform: scale(1.01);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+/* ========================================
+   FOOTER
+   ======================================== */
+
+footer {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    color: #fff;
+    margin-top: auto;
+    animation: slideUp 0.5s ease;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(50px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+footer h5 {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 1.5rem;
+    position: relative;
+    display: inline-block;
+}
+
+footer h5::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: linear-gradient(90deg, #00d4ff, #0ea5e9);
+}
+
+footer a {
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+}
+
+footer a:hover {
+    color: #00d4ff !important;
+    transform: translateX(5px);
+}
+
+footer i {
+    margin-right: 10px;
+    transition: all 0.3s ease;
+}
+
+footer a:hover i {
+    transform: scale(1.2) rotate(5deg);
+}
+
+footer hr {
+    background: rgba(255,255,255,0.2);
+    height: 2px;
+    margin: 2rem 0;
+}
+
+/* ========================================
+   ANIMATIONS & UTILITIES
+   ======================================== */
+
+/* Loading Animation */
+.spinner-border {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Fade In Animation */
+.fade-in {
+    animation: fadeIn 0.5s ease;
+}
+
+/* Slide In Animations */
+.slide-in-left {
+    animation: slideInLeft 0.5s ease;
+}
+
+@keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-50px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.slide-in-right {
+    animation: slideInRight 0.5s ease;
+}
+
+@keyframes slideInRight {
+    from { opacity: 0; transform: translateX(50px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+/* Zoom In Animation */
+.zoom-in {
+    animation: zoomIn 0.5s ease;
+}
+
+@keyframes zoomIn {
+    from { opacity: 0; transform: scale(0.5); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+    
+    .card {
+        margin-bottom: 1rem;
+    }
+    
+    .btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    footer h5 {
+        margin-top: 1.5rem;
+    }
+}
+
+/* ========================================
+   SCROLLBAR STYLING
+   ======================================== */
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #00d4ff 0%, #0ea5e9 100%);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #0ea5e9 0%, #00d4ff 100%);
+}
+
+/* ========================================
+   DROPDOWN MENU
+   ======================================== */
+
+.dropdown-menu {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    animation: dropdownSlide 0.3s ease;
+}
+
+@keyframes dropdownSlide {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.dropdown-item {
+    transition: all 0.3s ease;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.dropdown-item:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff !important;
+    transform: translateX(5px);
+}
+
+/* ========================================
+   ALERT MESSAGES
+   ======================================== */
+
+.alert {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    animation: slideInTop 0.5s ease;
+}
+
+@keyframes slideInTop {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ========================================
+   PRODUCT IMAGE HOVER EFFECT
+   ======================================== */
+
+.product-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px 10px 0 0;
+}
+
+.product-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.8), rgba(14, 165, 233, 0.8));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.product-image-wrapper:hover .product-overlay {
+    opacity: 1;
+}
+
+.product-card {
+    transition: all 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-15px);
+}
+
+/* ========================================
+   DARK MODE STYLES
+   ======================================== */
+
+body.dark-mode {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: #e0e0e0;
+}
+
+/* Dark Mode - Cards */
+body.dark-mode .card {
+    background: #2a2a3e;
+    color: #e0e0e0;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+body.dark-mode .card-title {
+    color: #f0f0f0;
+}
+
+body.dark-mode .card:hover {
+    box-shadow: 0 15px 40px rgba(0, 212, 255, 0.3);
+}
+
+/* Dark Mode - Forms */
+body.dark-mode .form-control {
+    background: #1e1e2e;
+    border-color: #3a3a4e;
+    color: #e0e0e0;
+}
+
+body.dark-mode .form-control:focus {
+    background: #2a2a3e;
+    border-color: #00d4ff;
+    color: #e0e0e0;
+}
+
+body.dark-mode .form-control::placeholder {
+    color: #888;
+}
+
+/* Dark Mode - Tables */
+body.dark-mode .table {
+    color: #e0e0e0;
+    background: #2a2a3e;
+}
+
+body.dark-mode .table tbody tr {
+    background: #2a2a3e;
+}
+
+body.dark-mode .table tbody tr:hover {
+    background: #3a3a4e;
+}
+
+/* Dark Mode - Dropdown */
+body.dark-mode .dropdown-menu {
+    background: #2a2a3e;
+    border-color: #3a3a4e;
+}
+
+body.dark-mode .dropdown-item {
+    color: #e0e0e0;
+}
+
+body.dark-mode .dropdown-item:hover {
+    background: linear-gradient(135deg, #00d4ff 0%, #0ea5e9 100%);
+    color: #fff;
+}
+
+/* Dark Mode - Buttons */
+body.dark-mode .btn-outline-primary {
+    border-color: #00d4ff;
+    color: #00d4ff;
+}
+
+body.dark-mode .btn-outline-primary:hover {
+    background: #00d4ff;
+    color: #fff;
+}
+
+/* Dark Mode - Text Colors */
+body.dark-mode .text-muted {
+    color: #999 !important;
+}
+
+body.dark-mode h1, 
+body.dark-mode h2, 
+body.dark-mode h3, 
+body.dark-mode h4, 
+body.dark-mode h5, 
+body.dark-mode h6 {
+    color: #f0f0f0;
+}
+
+/* Dark Mode - Alerts */
+body.dark-mode .alert {
+    background: #2a2a3e;
+    border-color: #3a3a4e;
+    color: #e0e0e0;
+}
+
+/* Dark Mode - Footer stays the same (already dark) */
+
+/* Dark Mode Toggle Button Animation */
+#darkModeToggle {
+    transition: transform 0.3s ease;
+}
+
+#darkModeToggle:hover {
+    transform: rotate(20deg) scale(1.2);
+}
+
+/* Dark Mode - Navbar Search in Dark Mode */
+body.dark-mode .navbar .form-control {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.3);
+    color: #fff;
+}
+
+body.dark-mode .navbar .form-control::placeholder {
+    color: rgba(255,255,255,0.7);
+}
+
+body.dark-mode .navbar .form-control:focus {
+    background: rgba(255,255,255,0.2);
+    border-color: #fff;
+}
+
+/* Dark Mode - Carousel */
+body.dark-mode .carousel-inner {
+    border-radius: 15px;
+}
+
+/* Dark Mode - Badge */
+body.dark-mode .badge-light {
+    background: #00d4ff;
+    color: #fff;
+}
+
+/* Smooth transition for dark mode */
+body {
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.card,
+.form-control,
+.dropdown-menu,
+.table,
+.alert {
+    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+

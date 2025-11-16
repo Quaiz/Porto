@@ -1,0 +1,132 @@
+@model Porto.Models.Product
+
+@{
+    ViewBag.Title = "Cập Nhật Kho - Admin";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-boxes"></i> Cập Nhật Số Lượng Tồn Kho</h2>
+    <a href="@Url.Action("Index")" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Quay lại
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <img src="~/Content/images/@Model.ProductImage" class="card-img-top" alt="@Model.ProductName" style="height:250px; object-fit:cover;">
+            <div class="card-body">
+                <h5 class="card-title">@Model.ProductName</h5>
+                <p class="card-text">
+                    <strong>Danh mục:</strong> @Model.Category.CategoryName<br>
+                    <strong>Giá:</strong> @Model.ProductPrice.ToString("C")
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="fas fa-info-circle"></i> Thông Tin Hiện Tại</h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-md-6">
+                        <h2 class="text-primary">@Model.ProductQuantity</h2>
+                        <p class="text-muted">Số lượng hiện tại</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h3>
+                            @if (Model.ProductQuantity <= 5)
+                            {
+                                <span class="badge badge-danger badge-lg"><i class="fas fa-exclamation-circle"></i> Hết hàng</span>
+                            }
+                            else if (Model.ProductQuantity <= 10)
+                            {
+                                <span class="badge badge-warning badge-lg"><i class="fas fa-exclamation-triangle"></i> Sắp hết</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-success badge-lg"><i class="fas fa-check-circle"></i> Còn hàng</span>
+                            }
+                        </h3>
+                        <p class="text-muted">Trạng thái</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fas fa-edit"></i> Cập Nhật Số Lượng</h5>
+            </div>
+            <div class="card-body">
+                @using (Html.BeginForm("UpdateStock", "AdminInventory", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("id", Model.ProductID)
+
+                    <div class="form-group">
+                        <label><i class="fas fa-calculator"></i> Phương thức cập nhật</label>
+                        <div class="btn-group btn-group-toggle w-100" data-toggle="buttons">
+                            <label class="btn btn-outline-primary active">
+                                <input type="radio" name="action" value="add" checked> <i class="fas fa-plus"></i> Nhập thêm hàng
+                            </label>
+                            <label class="btn btn-outline-primary">
+                                <input type="radio" name="action" value="set"> <i class="fas fa-sync"></i> Đặt số lượng mới
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="quantity"><i class="fas fa-hashtag"></i> Số lượng</label>
+                        <input type="number" name="quantity" id="quantity" class="form-control form-control-lg" min="0" value="0" required>
+                        <small class="form-text text-muted">
+                            <strong>Nhập thêm:</strong> Cộng thêm vào số lượng hiện tại<br>
+                            <strong>Đặt mới:</strong> Thay thế số lượng hiện tại
+                        </small>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i> 
+                        <strong>Số lượng hiện tại:</strong> <span class="badge badge-primary">@Model.ProductQuantity</span>
+                    </div>
+
+                    <div class="text-right">
+                        <a href="@Url.Action("Index")" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Hủy
+                        </a>
+                        <button type="submit" class="btn btn-success btn-lg">
+                            <i class="fas fa-save"></i> Cập Nhật Kho
+                        </button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $(document).ready(function() {
+            $('input[name="action"]').change(function() {
+                var action = $(this).val();
+                var currentQty = @Model.ProductQuantity;
+                var inputQty = parseInt($('#quantity').val()) || 0;
+                
+                if (action === 'add') {
+                    $('.alert-info strong').next().text(currentQty + ' + ' + inputQty + ' = ' + (currentQty + inputQty));
+                } else {
+                    $('.alert-info strong').next().text('Sẽ được đặt thành: ' + inputQty);
+                }
+            });
+
+            $('#quantity').on('input', function() {
+                $('input[name="action"]:checked').trigger('change');
+            });
+        });
+    </script>
+}
+

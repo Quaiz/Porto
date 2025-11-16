@@ -1,0 +1,88 @@
+﻿@model List<Porto.Models.Product>
+
+@{
+    ViewBag.Title = "Products - Porto";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-3">
+            <h5>Categories</h5>
+            <div class="list-group">
+                <a href="@Url.Action("Index", new { category = 0 })" class="list-group-item @(ViewBag.Category == 0 ? "active" : "")">All Products</a>
+                @foreach (var cat in ViewBag.Categories as List<Porto.Models.Category>)
+                {
+                    <a href="@Url.Action("Index", new { category = cat.CategoryID })" class="list-group-item @(ViewBag.Category == cat.CategoryID ? "active" : "")">@cat.CategoryName</a>
+                }
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="card mb-4" style="border: none; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+                <div class="card-body">
+                    <form method="get" class="row align-items-end">
+                        <div class="col-md-5 mb-2">
+                            <label class="small font-weight-bold"><i class="fas fa-search"></i> Tìm kiếm</label>
+                            <input type="text" name="search" class="form-control" placeholder="Nhập tên sản phẩm..." value="@ViewBag.Search">
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <label class="small font-weight-bold"><i class="fas fa-sort"></i> Sắp xếp</label>
+                            <select name="sort" class="form-control">
+                                <option value="name" @(ViewBag.Sort == "name" ? "selected" : "")>Tên A-Z</option>
+                                <option value="price_asc" @(ViewBag.Sort == "price_asc" ? "selected" : "")>Giá: Thấp đến Cao</option>
+                                <option value="price_desc" @(ViewBag.Sort == "price_desc" ? "selected" : "")>Giá: Cao đến Thấp</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <button type="submit" class="btn btn-primary btn-block">
+                                <i class="fas fa-filter"></i> Lọc
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="row">
+                @foreach (var product in Model)
+                {
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <img src="~/Content/images/@product.ProductImage" class="card-img-top" alt="@product.ProductName" style="height:200px; object-fit:cover;">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">@product.ProductName</h5>
+                                <p class="card-text">
+                                    @if (!string.IsNullOrEmpty(product.ProductDecription))
+                                    {
+                                        @(product.ProductDecription.Length > 100 ? product.ProductDecription.Substring(0, 100) + "..." : product.ProductDecription)
+                                    }
+                                </p>
+                                <p class="card-text text-danger font-weight-bold">@product.ProductPrice.ToString("C")</p>
+                                <div class="mt-auto">
+                                    <a href="@Url.Action("Details", new { id = product.ProductID })" class="btn btn-outline-primary btn-sm">View Details</a>
+                                    <button class="btn btn-primary btn-sm add-to-cart" data-id="@product.ProductID">Add to Cart</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            @if (ViewBag.TotalPages > 1)
+            {
+                <nav>
+                    <ul class="pagination">
+                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                        {
+                            <li class="page-item @(i == ViewBag.Page ? "active" : "")">
+                                <a class="page-link" href="@Url.Action("Index", new { search = ViewBag.Search, sort = ViewBag.Sort, page = i, category = ViewBag.Category })">@i</a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            }
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/Scripts/cart.js"></script>
+}

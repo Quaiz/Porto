@@ -1,0 +1,22 @@
+﻿@model Porto.Models.Category
+
+@{
+    ViewBag.Title = "Edit Category";
+}
+
+<h2>Edit Category</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.CategoryID)
+
+    <div class="form-group">
+        <label>Category Name</label>
+        @Html.TextBoxFor(m => m.CategoryName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.CategoryName)
+    </div>
+
+    <button type="submit" class="btn btn-success">Save</button>
+    <a href="@Url.Action("Index")" class="btn btn-secondary">Cancel</a>
+}

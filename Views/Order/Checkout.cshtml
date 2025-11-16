@@ -1,0 +1,190 @@
+﻿@model List<Porto.Models.CartItem>
+
+@{
+    ViewBag.Title = "Thanh Toán - Porto";
+}
+
+<div class="container mt-5 mb-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="text-center mb-4">
+                <h2 class="display-4 font-weight-bold" style="color: #00d4ff;">
+                    <i class="fas fa-shopping-cart"></i> Thanh Toán
+                </h2>
+                <p class="text-muted">Vui lòng kiểm tra thông tin và chọn phương thức thanh toán</p>
+            </div>
+        </div>
+    </div>
+
+    @using (Html.BeginForm("Checkout", "Order", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        
+        <div class="row">
+            <!-- Left Column - Order Info -->
+            <div class="col-lg-8">
+                <!-- Customer Info -->
+                <div class="card mb-4 shadow-sm" style="border: none; border-radius: 15px;">
+                    <div class="card-header" style="background: linear-gradient(135deg, #00d4ff 0%, #0ea5e9 100%); color: #fff; border-radius: 15px 15px 0 0;">
+                        <h5 class="mb-0"><i class="fas fa-user"></i> Thông Tin Người Nhận</h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold"><i class="fas fa-user-circle"></i> Họ và tên</label>
+                                    <input type="text" class="form-control" value="@ViewBag.Customer.CustomerName" readonly style="background: #f8f9fa;">
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label class="font-weight-bold"><i class="fas fa-phone"></i> Số điện thoại</label>
+                                    <input type="text" name="phone" class="form-control" value="@ViewBag.Customer.CustomerPhone" required>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="font-weight-bold"><i class="fas fa-map-marker-alt"></i> Địa chỉ giao hàng</label>
+                                    <textarea name="shippingAddress" class="form-control" rows="3" required placeholder="Nhập địa chỉ chi tiết...">@ViewBag.Customer.CustomerAddress</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Method -->
+                <div class="card shadow-sm" style="border: none; border-radius: 15px;">
+                    <div class="card-header" style="background: linear-gradient(135deg, #00d4ff 0%, #0ea5e9 100%); color: #fff; border-radius: 15px 15px 0 0;">
+                        <h5 class="mb-0"><i class="fas fa-credit-card"></i> Phương Thức Thanh Toán</h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="payment-methods">
+                            <div class="custom-control custom-radio mb-3 p-3" style="border: 2px solid #e0e0e0; border-radius: 10px; cursor: pointer;" onclick="selectPayment('cod', this)">
+                                <input type="radio" id="cod" name="paymentMethod" value="COD" class="custom-control-input" checked>
+                                <label class="custom-control-label w-100" for="cod" style="cursor: pointer;">
+                                    <div class="d-flex align-items-center">
+                                        <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                                            <i class="fas fa-money-bill-wave" style="color: #fff; font-size: 20px;"></i>
+                                        </div>
+                                        <div>
+                                            <strong style="font-size: 1.1rem;">Thanh toán khi nhận hàng (COD)</strong>
+                                            <p class="text-muted mb-0 small">Thanh toán bằng tiền mặt khi nhận hàng</p>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div class="custom-control custom-radio mb-3 p-3" style="border: 2px solid #e0e0e0; border-radius: 10px; cursor: pointer;" onclick="selectPayment('online', this)">
+                                <input type="radio" id="online" name="paymentMethod" value="Online" class="custom-control-input">
+                                <label class="custom-control-label w-100" for="online" style="cursor: pointer;">
+                                    <div class="d-flex align-items-center">
+                                        <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #00d4ff 0%, #0ea5e9 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                                            <i class="fas fa-credit-card" style="color: #fff; font-size: 20px;"></i>
+                                        </div>
+                                        <div>
+                                            <strong style="font-size: 1.1rem;">Thanh toán online</strong>
+                                            <p class="text-muted mb-0 small">Thanh toán qua thẻ ATM, Visa, MasterCard, Momo, ZaloPay</p>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div class="custom-control custom-radio p-3" style="border: 2px solid #e0e0e0; border-radius: 10px; cursor: pointer;" onclick="selectPayment('bank', this)">
+                                <input type="radio" id="bank" name="paymentMethod" value="Bank Transfer" class="custom-control-input">
+                                <label class="custom-control-label w-100" for="bank" style="cursor: pointer;">
+                                    <div class="d-flex align-items-center">
+                                        <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #f2994a 0%, #f2c94c 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                                            <i class="fas fa-university" style="color: #fff; font-size: 20px;"></i>
+                                        </div>
+                                        <div>
+                                            <strong style="font-size: 1.1rem;">Chuyển khoản ngân hàng</strong>
+                                            <p class="text-muted mb-0 small">Chuyển khoản trực tiếp vào tài khoản ngân hàng</p>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Order Summary -->
+            <div class="col-lg-4">
+                <div class="card shadow-lg" style="border: none; border-radius: 15px; position: sticky; top: 100px;">
+                    <div class="card-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; border-radius: 15px 15px 0 0;">
+                        <h5 class="mb-0"><i class="fas fa-file-invoice"></i> Đơn Hàng Của Bạn</h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="order-items" style="max-height: 300px; overflow-y: auto;">
+                            @foreach (var item in Model)
+                            {
+                                <div class="d-flex align-items-center mb-3 pb-3" style="border-bottom: 1px solid #f0f0f0;">
+                                    <img src="~/Content/images/@item.Image" width="50" height="50" class="mr-3" style="border-radius: 8px; object-fit: cover;">
+                                    <div class="flex-fill">
+                                        <div class="font-weight-bold text-truncate" style="max-width: 150px;">@item.Name</div>
+                                        <small class="text-muted">SL: @item.Quantity</small>
+                                    </div>
+                                    <div class="text-right">
+                                        <strong style="color: #00d4ff;">@item.Total.ToString("C")</strong>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                        <div class="mt-4 pt-3" style="border-top: 2px dashed #e0e0e0;">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Tạm tính:</span>
+                                <span>@Model.Sum(i => i.Total).ToString("C")</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Phí vận chuyển:</span>
+                                <span class="text-success">Miễn phí</span>
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-between mb-3">
+                                <strong style="font-size: 1.2rem;">Tổng cộng:</strong>
+                                <strong style="font-size: 1.5rem; color: #00d4ff;">@Model.Sum(i => i.Total).ToString("C")</strong>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-lg btn-block" style="border-radius: 10px; font-weight: 600;">
+                            <i class="fas fa-check-circle"></i> Xác Nhận Thanh Toán
+                        </button>
+
+                        <a href="@Url.Action("Index", "Cart")" class="btn btn-outline-secondary btn-block mt-2" style="border-radius: 10px;">
+                            <i class="fas fa-arrow-left"></i> Quay lại giỏ hàng
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+    function selectPayment(id, element) {
+        // Uncheck all
+        document.querySelectorAll('.payment-methods input[type="radio"]').forEach(input => {
+            input.checked = false;
+        });
+        
+        // Check selected
+        document.getElementById(id).checked = true;
+        
+        // Remove highlight from all
+        document.querySelectorAll('.payment-methods .custom-control').forEach(el => {
+            el.style.borderColor = '#e0e0e0';
+            el.style.background = '#fff';
+        });
+        
+        // Highlight selected
+        element.style.borderColor = '#00d4ff';
+        element.style.background = 'linear-gradient(135deg, #e0f7ff 0%, #f0fdff 100%)';
+    }
+
+    // Highlight COD by default on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        const codElement = document.getElementById('cod').closest('.custom-control');
+        selectPayment('cod', codElement);
+    });
+</script>

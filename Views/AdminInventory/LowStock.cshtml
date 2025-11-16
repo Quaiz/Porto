@@ -1,0 +1,87 @@
+@model List<Porto.Models.Product>
+
+@{
+    ViewBag.Title = "Hàng Sắp Hết - Admin";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-exclamation-triangle text-warning"></i> Hàng Sắp Hết</h2>
+    <a href="@Url.Action("Index")" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Quay lại
+    </a>
+</div>
+
+<div class="alert alert-warning">
+    <i class="fas fa-info-circle"></i> Danh sách sản phẩm có số lượng tồn kho <strong>≤ @ViewBag.Threshold</strong>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Hình ảnh</th>
+                        <th>Sản phẩm</th>
+                        <th>Danh mục</th>
+                        <th>Giá</th>
+                        <th class="text-center">Số lượng tồn</th>
+                        <th class="text-center">Mức độ</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="@(item.ProductQuantity <= 5 ? "table-danger" : "table-warning")">
+                            <td>
+                                <img src="~/Content/images/@item.ProductImage" alt="@item.ProductName" style="width:50px; height:50px; object-fit:cover; border-radius:5px;">
+                            </td>
+                            <td>
+                                <strong>@item.ProductName</strong><br>
+                                <small class="text-muted">ID: @item.ProductID</small>
+                            </td>
+                            <td>@item.Category.CategoryName</td>
+                            <td>@item.ProductPrice.ToString("C")</td>
+                            <td class="text-center">
+                                <h5>
+                                    <span class="badge badge-@(item.ProductQuantity <= 5 ? "danger" : "warning")">
+                                        @item.ProductQuantity
+                                    </span>
+                                </h5>
+                            </td>
+                            <td class="text-center">
+                                @if (item.ProductQuantity == 0)
+                                {
+                                    <span class="badge badge-danger"><i class="fas fa-times-circle"></i> HẾT HÀNG</span>
+                                }
+                                else if (item.ProductQuantity <= 5)
+                                {
+                                    <span class="badge badge-danger"><i class="fas fa-exclamation-circle"></i> KHẨN CẤP</span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-warning"><i class="fas fa-exclamation-triangle"></i> CẦN NHẬP</span>
+                                }
+                            </td>
+                            <td class="text-right">
+                                <a href="@Url.Action("UpdateStock", new { id = item.ProductID })" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-plus-circle"></i> Nhập hàng
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        @if (!Model.Any())
+        {
+            <div class="alert alert-success text-center">
+                <i class="fas fa-check-circle"></i> Tất cả sản phẩm đều có đủ hàng tồn kho!
+            </div>
+        }
+    </div>
+</div>
+

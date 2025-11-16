@@ -1,0 +1,128 @@
+@model List<Porto.Models.Customer>
+
+@{
+    ViewBag.Title = "Quản Lý Khách Hàng - Admin";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-users"></i> Quản Lý Khách Hàng</h2>
+</div>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <form method="get" class="form-inline">
+            <div class="input-group" style="width:400px;">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                </div>
+                <input type="text" name="search" class="form-control" placeholder="Tìm theo tên, email, SĐT, username..." value="@ViewBag.Search">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary">Tìm</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tên khách hàng</th>
+                        <th>Email</th>
+                        <th>Điện thoại</th>
+                        <th>Địa chỉ</th>
+                        <th>Username</th>
+                        <th class="text-right">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td><strong>#@item.CustomerID</strong></td>
+                            <td>
+                                <i class="fas fa-user-circle text-primary"></i> @item.CustomerName
+                            </td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(item.CustomerEmail))
+                                {
+                                    <a href="mailto:@item.CustomerEmail"><i class="fas fa-envelope"></i> @item.CustomerEmail</a>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">Chưa có</span>
+                                }
+                            </td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(item.CustomerPhone))
+                                {
+                                    <i class="fas fa-phone"></i> @item.CustomerPhone
+                                }
+                                else
+                                {
+                                    <span class="text-muted">Chưa có</span>
+                                }
+                            </td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(item.CustomerAddress))
+                                {
+                                    <small>@item.CustomerAddress</small>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">Chưa có</span>
+                                }
+                            </td>
+                            <td>
+                                <span class="badge badge-secondary"><i class="fas fa-user"></i> @item.Username</span>
+                            </td>
+                            <td class="text-right">
+                                <a href="@Url.Action("Details", new { id = item.CustomerID })" class="btn btn-info btn-sm">
+                                    <i class="fas fa-eye"></i> Chi tiết
+                                </a>
+                                <a href="@Url.Action("Orders", new { id = item.CustomerID })" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-shopping-bag"></i> Đơn hàng
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        @if (!Model.Any())
+        {
+            <div class="alert alert-info text-center">
+                <i class="fas fa-info-circle"></i> Không tìm thấy khách hàng nào
+            </div>
+        }
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-header bg-info text-white">
+        <h5 class="mb-0"><i class="fas fa-chart-bar"></i> Thống Kê</h5>
+    </div>
+    <div class="card-body">
+        <div class="row text-center">
+            <div class="col-md-4">
+                <h3 class="text-primary">@Model.Count</h3>
+                <p class="text-muted">Tổng khách hàng</p>
+            </div>
+            <div class="col-md-4">
+                <h3 class="text-success">@Model.Count(c => !string.IsNullOrEmpty(c.CustomerEmail))</h3>
+                <p class="text-muted">Có email</p>
+            </div>
+            <div class="col-md-4">
+                <h3 class="text-info">@Model.Count(c => !string.IsNullOrEmpty(c.CustomerPhone))</h3>
+                <p class="text-muted">Có SĐT</p>
+            </div>
+        </div>
+    </div>
+</div>
+

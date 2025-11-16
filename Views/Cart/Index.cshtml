@@ -1,0 +1,62 @@
+﻿@model List<Porto.Models.CartItem>
+
+@{
+    ViewBag.Title = "Shopping Cart - Porto";
+}
+
+<div class="container mt-4">
+    <h2>Shopping Cart</h2>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">Your cart is empty. <a href="@Url.Action("Index", "Product")">Continue shopping</a></div>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <img src="~/Content/images/@item.Image" width="50" height="50" class="mr-2">
+                            @item.Name
+                        </td>
+                        <td>@item.Price.ToString("C")</td>
+                        <td>
+                            <input type="number" class="form-control quantity-input" data-id="@item.ProductID" value="@item.Quantity" min="1" style="width:70px;">
+                        </td>
+                        <td class="item-total">@item.Total.ToString("C")</td>
+                        <td>
+                            <button class="btn btn-danger btn-sm remove-item" data-id="@item.ProductID">Remove</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="text-right"><strong>Grand Total:</strong></td>
+                    <td colspan="2" id="grand-total">@Model.Sum(i => i.Total).ToString("C")</td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div class="text-right">
+            <a href="@Url.Action("Index", "Product")" class="btn btn-secondary">Continue Shopping</a>
+            <a href="@Url.Action("Checkout", "Order")" class="btn btn-success">Proceed to Checkout</a>
+        </div>
+    }
+</div>
+
+@section scripts {
+    <script src="~/Scripts/cart.js"></script>
+}

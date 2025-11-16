@@ -1,0 +1,62 @@
+@model Porto.Models.User
+
+@{
+    ViewBag.Title = "Xóa Người Dùng - Admin";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-user-times text-danger"></i> Xóa Người Dùng</h2>
+    <a href="@Url.Action("Index")" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Quay lại
+    </a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0"><i class="fas fa-exclamation-triangle"></i> Xác Nhận Xóa Người Dùng</h5>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-circle"></i> 
+                    <strong>CẢNH BÁO:</strong> Bạn có chắc chắn muốn xóa người dùng này không? Hành động này không thể hoàn tác!
+                </div>
+
+                <dl class="row">
+                    <dt class="col-sm-4"><i class="fas fa-user"></i> Tên đăng nhập:</dt>
+                    <dd class="col-sm-8"><strong>@Model.Username</strong></dd>
+
+                    <dt class="col-sm-4"><i class="fas fa-user-tag"></i> Vai trò:</dt>
+                    <dd class="col-sm-8">
+                        @if (Model.UserRole == "Admin")
+                        {
+                            <span class="badge badge-danger"><i class="fas fa-user-shield"></i> Admin</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-primary"><i class="fas fa-user"></i> Customer</span>
+                        }
+                    </dd>
+                </dl>
+
+                @using (Html.BeginForm("Delete", "AdminUser", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("id", Model.Username)
+
+                    <div class="text-right">
+                        <a href="@Url.Action("Index")" class="btn btn-secondary btn-lg">
+                            <i class="fas fa-times"></i> Hủy
+                        </a>
+                        <button type="submit" class="btn btn-danger btn-lg">
+                            <i class="fas fa-trash"></i> Xác Nhận Xóa
+                        </button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+

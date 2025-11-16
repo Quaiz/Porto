@@ -1,0 +1,33 @@
+﻿@model List<Porto.Models.Order>
+
+@{
+    ViewBag.Title = "Orders - Admin";
+}
+
+<h2>Manage Orders</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Customer</th>
+            <th>Date</th>
+            <th>Total</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>#@item.OrderID</td>
+                <td>@item.Customer.CustomerName</td>
+                <td>@item.OrderDate.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@item.TotalAmount.ToString("C")</td>
+                <td>
+                    <a href="@Url.Action("Details", new { id = item.OrderID })" class="btn btn-sm btn-info">View</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

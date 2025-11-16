@@ -1,0 +1,85 @@
+@model Porto.Models.User
+
+@{
+    ViewBag.Title = "Tạo Người Dùng Mới - Admin";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-user-plus"></i> Tạo Người Dùng Mới</h2>
+    <a href="@Url.Action("Index")" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Quay lại
+    </a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                @using (Html.BeginForm("Create", "AdminUser", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Username, new { @class = "font-weight-bold" })
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            </div>
+                            @Html.TextBoxFor(m => m.Username, new { @class = "form-control", placeholder = "Nhập tên đăng nhập...", required = "required" })
+                        </div>
+                        @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Password, new { @class = "font-weight-bold" })
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                            </div>
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Nhập mật khẩu...", required = "required" })
+                        </div>
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                        <small class="form-text text-muted">
+                            <i class="fas fa-exclamation-triangle"></i> Mật khẩu sẽ được lưu dạng plain text (không khuyến nghị trong production)
+                        </small>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.UserRole, "Vai trò", new { @class = "font-weight-bold" })
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
+                            </div>
+                            @Html.DropDownListFor(m => m.UserRole, (SelectList)ViewBag.UserRoles, new { @class = "form-control", required = "required" })
+                        </div>
+                        @Html.ValidationMessageFor(m => m.UserRole, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i> 
+                        <strong>Lưu ý:</strong>
+                        <ul class="mb-0 mt-2">
+                            <li><strong>Admin:</strong> Có quyền truy cập tất cả các chức năng quản trị</li>
+                            <li><strong>Customer:</strong> Chỉ có thể mua hàng và xem đơn hàng của mình</li>
+                        </ul>
+                    </div>
+
+                    <div class="text-right">
+                        <a href="@Url.Action("Index")" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Hủy
+                        </a>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save"></i> Tạo Người Dùng
+                        </button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

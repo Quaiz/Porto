@@ -1,0 +1,52 @@
+﻿@model Porto.Models.Product
+
+@{
+    ViewBag.Title = "Edit Product";
+}
+
+<h2>Edit Product</h2>
+
+@using (Html.BeginForm("Edit", "AdminProduct", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.ProductID)
+
+    <div class="form-group">
+        <label>Product Name</label>
+        @Html.TextBoxFor(m => m.ProductName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.ProductName)
+    </div>
+
+    <div class="form-group">
+        <label>Price</label>
+        @Html.TextBoxFor(m => m.ProductPrice, new { @class = "form-control", type = "number", step = "0.01" })
+        @Html.ValidationMessageFor(m => m.ProductPrice)
+    </div>
+
+    <div class="form-group">
+        <label>Description</label>
+        @Html.TextAreaFor(m => m.ProductDecription, new { @class = "form-control", rows = 4 })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.CategoryID)
+        @Html.DropDownListFor(m => m.CategoryID, ViewBag.CategoryID as SelectList, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.CategoryID)
+    </div>
+
+    <div class="form-group">
+        <label>Current Image</label><br>
+        @if (!string.IsNullOrEmpty(Model.ProductImage))
+        {
+            <img src="~/Content/images/@Model.ProductImage" width="200" class="mb-2">
+        }
+    </div>
+
+    <div class="form-group">
+        <label>Change Image</label>
+        <input type="file" name="imageFile" class="form-control-file" accept="image/*">
+    </div>
+
+    <button type="submit" class="btn btn-success">Save</button>
+    <a href="@Url.Action("Index")" class="btn btn-secondary">Cancel</a>
+}

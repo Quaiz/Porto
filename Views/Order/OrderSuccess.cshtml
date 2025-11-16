@@ -1,0 +1,161 @@
+﻿@model Porto.Models.Order
+
+@{
+    ViewBag.Title = "Đặt Hàng Thành Công - Porto";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <!-- Success Animation -->
+            <div class="text-center mb-4" style="animation: zoomIn 0.5s ease;">
+                <div style="width: 120px; height: 120px; margin: 0 auto; background: linear-gradient(135deg, #00d4ff 0%, #0ea5e9 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 40px rgba(0, 212, 255, 0.4);">
+                    <i class="fas fa-check" style="font-size: 60px; color: #fff; animation: pulse 2s infinite;"></i>
+                </div>
+            </div>
+
+            <!-- Success Card -->
+            <div class="card shadow-lg" style="border: none; border-radius: 20px; overflow: hidden; animation: fadeIn 0.7s ease;">
+                <div class="card-body p-5">
+                    <h1 class="text-center mb-3" style="color: #00d4ff; font-weight: 700;">
+                        <i class="fas fa-shopping-bag"></i> Đặt Hàng Thành Công!
+                    </h1>
+                    <p class="text-center text-muted mb-4">Cảm ơn bạn đã mua hàng tại Porto. Đơn hàng của bạn đã được ghi nhận và đang được xử lý.</p>
+
+                    <div class="order-details" style="background: linear-gradient(135deg, #e0f7ff 0%, #f0fdff 100%); border-radius: 15px; padding: 30px; margin: 30px 0;">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="d-flex align-items-center">
+                                    <div style="width: 50px; height: 50px; background: #00d4ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                                        <i class="fas fa-hashtag" style="color: #fff; font-size: 20px;"></i>
+                                    </div>
+                                    <div>
+                                        <small class="text-muted d-block">Mã Đơn Hàng</small>
+                                        <strong style="font-size: 1.2rem; color: #00d4ff;">#@Model.OrderID</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <div class="d-flex align-items-center">
+                                    <div style="width: 50px; height: 50px; background: #0ea5e9; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                                        <i class="fas fa-calendar-alt" style="color: #fff; font-size: 20px;"></i>
+                                    </div>
+                                    <div>
+                                        <small class="text-muted d-block">Ngày Đặt</small>
+                                        <strong style="font-size: 1.1rem;">@Model.OrderDate.ToString("dd/MM/yyyy HH:mm")</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="d-flex align-items-center justify-content-center" style="background: #fff; border-radius: 10px; padding: 20px; margin-top: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+                                    <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                                        <i class="fas fa-money-bill-wave" style="color: #fff; font-size: 20px;"></i>
+                                    </div>
+                                    <div>
+                                        <small class="text-muted d-block">Tổng Tiền</small>
+                                        <strong style="font-size: 1.8rem; color: #11998e;">@Model.TotalAmount.ToString("C")</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Method Info -->
+                    <div class="card mb-3" style="border: 2px solid #00d4ff; border-radius: 10px;">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                @if (TempData["PaymentMethod"] != null)
+                                {
+                                    var paymentMethod = TempData["PaymentMethod"].ToString();
+                                    if (paymentMethod == "COD")
+                                    {
+                                        <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                                            <i class="fas fa-money-bill-wave" style="color: #fff; font-size: 20px;"></i>
+                                        </div>
+                                        <div>
+                                            <small class="text-muted d-block">Phương Thức Thanh Toán</small>
+                                            <strong style="font-size: 1.1rem;">Thanh toán khi nhận hàng (COD)</strong>
+                                        </div>
+                                    }
+                                    else if (paymentMethod == "Online")
+                                    {
+                                        <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #00d4ff 0%, #0ea5e9 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                                            <i class="fas fa-credit-card" style="color: #fff; font-size: 20px;"></i>
+                                        </div>
+                                        <div>
+                                            <small class="text-muted d-block">Phương Thức Thanh Toán</small>
+                                            <strong style="font-size: 1.1rem;">Thanh toán Online</strong>
+                                        </div>
+                                    }
+                                    else if (paymentMethod == "Bank Transfer")
+                                    {
+                                        <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #f2994a 0%, #f2c94c 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                                            <i class="fas fa-university" style="color: #fff; font-size: 20px;"></i>
+                                        </div>
+                                        <div>
+                                            <small class="text-muted d-block">Phương Thức Thanh Toán</small>
+                                            <strong style="font-size: 1.1rem;">Chuyển khoản ngân hàng</strong>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert" style="background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 50%); border: none; border-radius: 10px; border-left: 5px solid #ffc107;">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-info-circle" style="font-size: 24px; color: #ff9800; margin-right: 15px;"></i>
+                            <div>
+                                <strong>Thông Tin Giao Hàng</strong>
+                                <p class="mb-0 mt-1">Đơn hàng sẽ được giao trong vòng 2-3 ngày làm việc. Chúng tôi sẽ liên hệ với bạn qua số điện thoại để xác nhận.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <a href="@Url.Action("Index", "Home")" class="btn btn-primary btn-lg m-2" style="min-width: 200px;">
+                            <i class="fas fa-home"></i> Về Trang Chủ
+                        </a>
+                        <a href="@Url.Action("History", "Order")" class="btn btn-outline-primary btn-lg m-2" style="min-width: 200px;">
+                            <i class="fas fa-history"></i> Lịch Sử Đơn Hàng
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Info -->
+            <div class="text-center mt-4 mb-5">
+                <p class="text-muted">
+                    <i class="fas fa-envelope"></i> Bạn sẽ nhận được email xác nhận đơn hàng trong vài phút tới.
+                </p>
+                <p class="text-muted">
+                    <i class="fas fa-phone-alt"></i> Cần hỗ trợ? Liên hệ: <strong style="color: #00d4ff;">+84 123 456 789</strong>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    @@keyframes zoomIn {
+        from {
+            opacity: 0;
+            transform: scale(0.5);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    @@keyframes pulse {
+        0%, 100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.1);
+        }
+    }
+</style>
